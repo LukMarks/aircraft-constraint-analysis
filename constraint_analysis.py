@@ -8,7 +8,7 @@ class design_space:
         pass
         return
 
-    def constant_velocity_turn(self): # T/W for a level constante-velocity turn
+    def constant_velocity_turn(self,w_s,CD_min,k,n,q): # T/W for a level constante-velocity turn
         # Variables:
         # CD_min: minimun drag coefficent
         # k: lift-induced drag constant
