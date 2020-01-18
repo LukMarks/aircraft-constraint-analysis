@@ -50,8 +50,16 @@ class design_space:
         t_w = aux1 + aux2 + aux3
         return t_w
 
-    def takeoff_distance(self):
-        
+    def takeoff_distance(self): # T/W for a specific ground run distance
+        # Variables:
+        # CL_to: lift coefficient during the takeoff
+        # CD_to: drag coefficient during the takeoff
+        # q[N/m²]: dynamic pressure
+        # Sg[m]: ground run
+        # V_lof[m/s]: liftoff speed
+        # mi: ground friction constant
+        # acceleration due the gravity
+
         aux1 = V_lof**2/(2*g*Sg)
         aux2 = (q*CD_to)/w_s
         aux3 = (q*CL_to)/w-s
@@ -59,9 +67,19 @@ class design_space:
         t_w = aux1 + aux2 + mi*(1 - aux3)
         return t_w
     
-    def cruise_airspeed(self):
-        pass
-        return
+    def cruise_airspeed(self): # T/W for the cruise airspeed
+        # Variables:
+        # CD_min: minimun drag coefficent
+        # k: lift-induced drag constant
+        # q[N/m²]: dynamic pressure at selected speed and altitude
+        # S[m²] : wing area
+        # T[N]: Thrust
+        # W[N]: weight
+       
+        aux1 = q*CD_min*(1/w_s)
+        aux2 = k*(1/q)*w_s
+        t_w = aux1+aux2
+        return t_w
     def service_ceiling(self):
         pass
         return
