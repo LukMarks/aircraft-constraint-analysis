@@ -17,6 +17,7 @@ class design_space:
         # T[N]: Thrust
         # W[N]: weight
         # n: load factor or 1/cos(psi), where psi is the bank angle
+        # w_s[N/m²]: weight and area wing ration(W/S)
 
         aux1 = CD_min/w_s
         aux2 = k*(n/q)**2
@@ -26,7 +27,7 @@ class design_space:
     def specifc_energy_level(self):# T/W for a select energy level
         # Variables:
         # Ps: specific energy level
-        # V[m/s]: airspeed 
+        # V[m/s]: airspeed
 
         t_w = constant_velocity_turn()+Ps/V
         return t_w
@@ -42,6 +43,7 @@ class design_space:
         # n: load factor or 1/cos(psi), where psi is the bank angle
         # V[m/s]: airspeed
         # vertical_speed[m/s]: Vertical speed
+        # w_s[N/m²]: weight and area wing ration(W/S)
         
         aux1 = Vertical_speed/V
         aux2 = (q/w_s)*CD_min
@@ -59,6 +61,7 @@ class design_space:
         # V_lof[m/s]: liftoff speed
         # mi: ground friction constant
         # acceleration due the gravity
+        # w_s[N/m²]: weight and area wing ration(W/S)
 
         aux1 = V_lof**2/(2*g*Sg)
         aux2 = (q*CD_to)/w_s
@@ -75,11 +78,24 @@ class design_space:
         # S[m²] : wing area
         # T[N]: Thrust
         # W[N]: weight
-       
+        # w_s[N/m²]: weight and area wing ration(W/S)
         aux1 = q*CD_min*(1/w_s)
         aux2 = k*(1/q)*w_s
         t_w = aux1+aux2
         return t_w
-    def service_ceiling(self):
-        pass
+    def service_ceiling(self): # T/W for a specific rate of climb
+        # Variables:
+        # CD_min: minimun drag coefficent
+        # k: lift-induced drag constant
+        # S[m²] : wing area
+        # T[N]: Thrust
+        # W[N]: weight
+        # vertical_speed[m/s]: Vertical speed
+        # p[kg/m³]: specifc mass of the air
+        # w_s[N/m²]: weight and area wing ration(W/S) 
+
+        aux1 = (k/(3*CD_min))**(1/2)
+        aux2 = ((2/p)*w_s*aux1)**(1/2)
+        aux3 = (k*CD_min/3)**(1/2)
+        t_w = vertical_speed/aux2 + 4 * aux3 
         return
