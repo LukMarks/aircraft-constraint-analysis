@@ -22,9 +22,14 @@ class design_space:
         t_w = q*(aux1*aux2*w_s)
         return t_w
     
-    def specifc_energy_level(self):
-        pass
-        return
+    def specifc_energy_level(self):# T/W for a select energy level
+        # Variables:
+        # Ps: specific energy level
+        # V[m/s]: airspeed 
+
+        t_w = constant_velocity_turn()+Ps/V
+
+        return t_w
 
     def takeoff_distance(self):
         pass
