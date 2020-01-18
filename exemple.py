@@ -7,20 +7,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 from constraint_analysis import design_space
 
-g = 9.81#[m/s²] gravity
-u = 1.7894*10**(-5)#[N.s/m²] air dynamic viscosity 
+
+
+
+#air properties
+#==========================================================
+g = 9.81#[m/s²] gravity 
 p = 1.2 #[kg/m³] air mass specific
-
-V_cruise = 20 #[m/s] cruise flight speed
-CDo = 0.022#[]parasite drag coefficient
-
+#==========================================================
 
 analysis = design_space()
+
+#set up analysis
+#==========================================================
 interations = 100 # number of interations
 w_s_initial = 10 #[N/m²] initial W/S ratio
 w_s_final = 60 #[N/m²] final W/S ratio
 step = (w_s_final-w_s_initial)/interations
+#==========================================================
 
+# constraits
+#==========================================================
+V_cruise = 20 #[m/s] cruise flight speed
+CDo = 0.022#[]parasite drag coefficient
 CD_min =0.0025 # minimun drag coefficent
 k = 0.0535 # lift-induced drag constant
 n = 2# load factor
@@ -28,12 +37,14 @@ q = (p*V_cruise**2)/2 #[N/m² or Pa] dynamic pressure at selected speed and alti
 Ps = 1 # specific energy level
 V = V_cruise #[m/s] airspeed
 Vertical_speed = 10 #[m/s] climb speed
-CL_to = 1.5 # Lift coefficient at takeoff
+CL_to = 1.3 # Lift coefficient at takeoff
 CD_to = CDo + k*CL_to**2 # Drag coefficient at takeoff
 Sg = 100# [m] maximum ground run distance
-V_lof = 2.5 #[m/s] speed at takeoff
+V_lof = 10 #[m/s] speed at takeoff
+#=========================================================
 
-
+# list for calculations
+#=========================================================
 w_s = w_s_initial
 W_S =[]
 t_w_velocity_turn =[]
@@ -42,7 +53,7 @@ t_w_rate_climb = []
 t_w_takeoff = []
 t_w_cruise = []
 t_w_service_ceiling = []
-
+#=========================================================
 while w_s <= w_s_final:
     t_w_velocity_turn.append(analysis.constant_velocity_turn(w_s,CD_min,k,n,q))
 
