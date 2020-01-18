@@ -17,6 +17,7 @@ class design_space:
         # T[N]: Thrust
         # W[N]: weight
         # n: load factor or 1/cos(psi), where psi is the bank angle
+
         aux1 = CD_min/w_s
         aux2 = k*(n/q)**2
         t_w = q*(aux1*aux2*w_s)
@@ -28,7 +29,25 @@ class design_space:
         # V[m/s]: airspeed 
 
         t_w = constant_velocity_turn()+Ps/V
+        return t_w
 
+    def rate_of_climb(self): # T/W for a specific rate of climb
+        # Variables:
+        # CD_min: minimun drag coefficent
+        # k: lift-induced drag constant
+        # q[N/m²]: dynamic pressure at selected speed and altitude
+        # S[m²] : wing area
+        # T[N]: Thrust
+        # W[N]: weight
+        # n: load factor or 1/cos(psi), where psi is the bank angle
+        # V[m/s]: airspeed
+        # vertical_speed[m/s]: Vertical speed
+        
+        aux1 = Vertical_speed/V
+        aux2 = (q/w_s)*CD_min
+        aux3 = (k/q)*w_s
+
+        t_w = aux1 + aux2 + aux3
         return t_w
 
     def takeoff_distance(self):
