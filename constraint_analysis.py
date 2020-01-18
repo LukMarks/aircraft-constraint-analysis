@@ -51,8 +51,13 @@ class design_space:
         return t_w
 
     def takeoff_distance(self):
-        pass
-        return
+        
+        aux1 = V_lof**2/(2*g*Sg)
+        aux2 = (q*CD_to)/w_s
+        aux3 = (q*CL_to)/w-s
+
+        t_w = aux1 + aux2 + mi*(1 - aux3)
+        return t_w
     
     def cruise_airspeed(self):
         pass
