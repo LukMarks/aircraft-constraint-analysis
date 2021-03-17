@@ -20,7 +20,7 @@ analysis = design_space()
 
 #set up analysis
 #==========================================================
-interations = 100 # number of interations
+interations = 10 # number of interations
 w_s_initial = 10 #[N/m²] initial W/S ratio
 w_s_final = 60 #[N/m²] final W/S ratio
 step = (w_s_final-w_s_initial)/interations
@@ -41,7 +41,7 @@ CL_to = 1.3 # Lift coefficient at takeoff
 CD_to = CDo + k*CL_to**2 # Drag coefficient at takeoff
 Sg = 100# [m] maximum ground run distance
 V_lof = 10 #[m/s] speed at takeoff
-stall_speed = range(1,15,5)
+stall_speed = [1,5,10,15]
 #=========================================================
 
 # list for calculations
@@ -54,10 +54,13 @@ t_w_rate_climb = []
 t_w_takeoff = []
 t_w_cruise = []
 t_w_service_ceiling = []
-stall_isoline = []
+stall_isoline_1 = []
+stall_isoline_5 = []
+stall_isoline_10 = []
+stall_isoline_15 = []
 #=========================================================
 while w_s <= w_s_final:
-    current_stall_isoline =[]
+    
     t_w_velocity_turn.append(analysis.constant_velocity_turn(w_s,CD_min,k,n,q))
 
     t_w_specifc_energy_level.append(analysis.specifc_energy_level(w_s,CD_min,k,n,q,Ps,V))
@@ -68,37 +71,50 @@ while w_s <= w_s_final:
 
     t_w_cruise.append(analysis.cruise_airspeed(w_s,CD_min,k,q))
 
-    t_w_service_ceiling.append(analysis.service_ceiling(w_s,k,CD_min,Vertical_speed))
+    t_w_service_ceiling.append(analysis.service_ceiling(w_s,k,CD_min,Vertical_speed)) 
 
-    for stall in stall_speed:
-        current_stall_isoline.append(analysis.cl_max_to_stall(w_s, stall))
-    stall_isoline.append(current_stall_isoline)   
+    stall_isoline_1.append(analysis.cl_max_to_stall(w_s, 1))
+    stall_isoline_5.append(analysis.cl_max_to_stall(w_s, 5))
+    stall_isoline_10.append(analysis.cl_max_to_stall(w_s, 10))
+    stall_isoline_15.append(analysis.cl_max_to_stall(w_s, 15))
 
     W_S.append(w_s)
     w_s +=step
 
-#TODO insert stall isolines to the final plot
-print(stall_isoline)
-plt.figure(1)
 
-plt.plot(W_S,t_w_velocity_turn, label='Velocity Turn')
+#plt.figure(1)
+fig, ax1 = plt.subplots()
 
-
-plt.plot(W_S,t_w_specifc_energy_level,label='Specific Energy \nLevel')
+ax2 = ax1.twinx()
 
 
-plt.plot(W_S,t_w_rate_climb,label='Rate Of Climb')
+ax1.set_xlabel('W/S',size=14)
+ax1.set_ylabel('T/W',size=14)
+ax2.set_ylabel('Required Cl_max', color='b')
+#ax1.title('Design Space',size=18)
 
-plt.plot(W_S,t_w_takeoff,label='Takeoff')
+ax1.plot(W_S,t_w_velocity_turn, label='Velocity Turn')
 
-plt.plot(W_S,t_w_cruise,label='Cruise Speed')
 
-plt.plot(W_S,t_w_service_ceiling,label='Ceiling Service')
+ax1.plot(W_S,t_w_specifc_energy_level,label='Specific Energy \nLevel')
 
-plt.title('Design Space',size=18)
-plt.xlabel('W/S',size=14)
-plt.ylabel('T/W',size=14)
-plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
-plt.grid()
+
+ax1.plot(W_S,t_w_rate_climb,label='Rate Of Climb')
+
+ax1.plot(W_S,t_w_takeoff,label='Takeoff')
+
+ax1.plot(W_S,t_w_cruise,label='Cruise Speed')
+
+ax1.plot(W_S,t_w_service_ceiling,label='Ceiling Service')
+
+ax2.plot(W_S,stall_isoline_1,label='Stall Isolines')
+ax2.plot(W_S,stall_isoline_5,label='Stall Isolines')
+ax2.plot(W_S,stall_isoline_10,label='Stall Isolines')
+ax2.plot(W_S,stall_isoline_15,label='Stall Isolines')
+
+#plt.xlabel('W/S',size=14)
+#plt.ylabel('T/W',size=14)
+ax1.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+ax1.grid()
 
 plt.show()
