@@ -99,4 +99,14 @@ class design_space:
         aux2 = ((2/p)*w_s*aux1)**(1/2)
         aux3 = (k*CD_min/3)**(1/2)
         t_w = vertical_speed/aux2 + 4 * aux3 
-        return
+        return t_w
+
+    def cl_max_to_stall(self, w_s, v_stall, p = 1.225):
+        # Variables:
+        # v_stall[m/s]: stall speed
+        # p[kg/m³]: specifc mass of the air
+        # w_s[N/m²]: weight and area wing ration(W/S) 
+        q_stall = (p*v_stall**2)/2 #dynamic pression for stall conditions
+        cl_max = w_s/q_stall
+        
+        return cl_max

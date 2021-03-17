@@ -41,6 +41,7 @@ CL_to = 1.3 # Lift coefficient at takeoff
 CD_to = CDo + k*CL_to**2 # Drag coefficient at takeoff
 Sg = 100# [m] maximum ground run distance
 V_lof = 10 #[m/s] speed at takeoff
+stall_speed = range(1,15,5)
 #=========================================================
 
 # list for calculations
@@ -53,8 +54,10 @@ t_w_rate_climb = []
 t_w_takeoff = []
 t_w_cruise = []
 t_w_service_ceiling = []
+stall_isoline = []
 #=========================================================
 while w_s <= w_s_final:
+    current_stall_isoline =[]
     t_w_velocity_turn.append(analysis.constant_velocity_turn(w_s,CD_min,k,n,q))
 
     t_w_specifc_energy_level.append(analysis.specifc_energy_level(w_s,CD_min,k,n,q,Ps,V))
@@ -67,9 +70,15 @@ while w_s <= w_s_final:
 
     t_w_service_ceiling.append(analysis.service_ceiling(w_s,k,CD_min,Vertical_speed))
 
+    for stall in stall_speed:
+        current_stall_isoline.append(analysis.cl_max_to_stall(w_s, stall))
+    stall_isoline.append(current_stall_isoline)   
+
     W_S.append(w_s)
     w_s +=step
 
+#TODO insert stall isolines to the final plot
+print(stall_isoline)
 plt.figure(1)
 
 plt.plot(W_S,t_w_velocity_turn, label='Velocity Turn')
