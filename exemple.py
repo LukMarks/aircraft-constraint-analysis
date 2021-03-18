@@ -90,7 +90,7 @@ ax2 = ax1.twinx()
 
 ax1.set_xlabel('W/S',size=14)
 ax1.set_ylabel('T/W',size=14)
-ax2.set_ylabel('Required Cl_max', color='b')
+ax2.set_ylabel('Required Cl_max')
 #ax1.title('Design Space',size=18)
 
 ax1.plot(W_S,t_w_velocity_turn, label='Velocity Turn')
@@ -107,14 +107,16 @@ ax1.plot(W_S,t_w_cruise,label='Cruise Speed')
 
 ax1.plot(W_S,t_w_service_ceiling,label='Ceiling Service')
 
-ax2.plot(W_S,stall_isoline_1,label='Stall Isolines')
-ax2.plot(W_S,stall_isoline_5,label='Stall Isolines')
-ax2.plot(W_S,stall_isoline_10,label='Stall Isolines')
-ax2.plot(W_S,stall_isoline_15,label='Stall Isolines')
+ax2.plot(W_S,stall_isoline_1, '--', label='Stall Isolines 1 m/s')
+ax2.plot(W_S,stall_isoline_5,'--',label='Stall Isolines 5 m/s')
+ax2.plot(W_S,stall_isoline_10,'--',label='Stall Isolines 10 m/s')
+ax2.plot(W_S,stall_isoline_15,'--',label='Stall Isolines 15 m/s')
 
 #plt.xlabel('W/S',size=14)
 #plt.ylabel('T/W',size=14)
-ax1.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
+ax1.legend(bbox_to_anchor=(1.15, 1), loc=2, borderaxespad=0.)
 ax1.grid()
+ax2.legend(bbox_to_anchor=(1.15, 0.5), loc=2, borderaxespad=0.)
+ax2.grid()
 
 plt.show()
